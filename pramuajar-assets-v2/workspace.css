@@ -434,42 +434,123 @@ h1, h2, h3, h4, .brand {
   color: var(--muted);
 }
 
-/* Tombol Terpadu & Harmonis (Menghilangkan Tabrakan Warna) */
-.other-option-card .btn {
+/* Hirarki & Levelling Aksi Perencanaan */
+.card-plan-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* 1. Tombol Utama (Primary CTA): Rencanakan 1 semester */
+.other-option-card .btn.btn-plan-primary {
   width: 100%;
-  min-height: 44px;
+  min-height: 42px;
+  border-radius: 12px !important;
+  font-weight: 600;
+  font-size: 13.5px;
+  border: 1px solid var(--primary) !important;
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 113, 227, 0.22) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+}
+.other-option-card .btn.btn-plan-primary:hover {
+  background: #005bb5 !important;
+  border-color: #005bb5 !important;
+  transform: translateY(-1.5px) !important;
+  box-shadow: 0 6px 16px rgba(0, 113, 227, 0.35) !important;
+}
+.other-option-card .btn.btn-plan-primary:active {
+  transform: scale(0.98) !important;
+}
+
+/* 2. Tombol Sekunder / Opsi Tambahan: Opsi rancangan 1 tahun */
+.other-option-card .btn.btn-plan-secondary {
+  width: 100%;
+  min-height: 36px;
+  border-radius: 10px !important;
+  font-weight: 600;
+  font-size: 12.5px;
+  border: 1px solid rgba(0, 113, 227, 0.25) !important;
+  background: rgba(0, 113, 227, 0.05) !important;
+  color: var(--primary) !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+}
+.other-option-card .btn.btn-plan-secondary:hover {
+  background: rgba(0, 113, 227, 0.12) !important;
+  border-color: var(--primary) !important;
+  color: #005bb5 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: none !important;
+}
+.other-option-card .btn.btn-plan-secondary:active {
+  transform: scale(0.98) !important;
+}
+
+/* 3. Tombol Outline Netral: Katalog Template */
+.other-option-card .btn.btn-plan-outline {
+  width: 100%;
+  min-height: 42px;
   border-radius: 12px !important;
   font-weight: 600;
   font-size: 13.5px;
   border: 1.5px solid var(--line) !important;
   background: var(--surface) !important;
-  color: var(--text) !important;
+  color: var(--ink) !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  margin-top: 12px;
+  cursor: pointer;
 }
-.other-option-card:hover .btn,
-.other-option-card .btn:hover {
-  background: var(--primary) !important;
-  color: #ffffff !important;
-  border-color: var(--primary) !important;
+.other-option-card .btn.btn-plan-outline:hover {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: var(--ink) !important;
+  color: var(--ink) !important;
   transform: translateY(-1.5px) !important;
-  box-shadow: 0 6px 18px rgba(0, 113, 227, 0.25) !important;
 }
-[data-theme="dark"] .other-option-card .btn {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
-  color: var(--text) !important;
-}
-[data-theme="dark"] .other-option-card:hover .btn,
-[data-theme="dark"] .other-option-card .btn:hover {
+
+/* Dark Mode Penyesuaian */
+[data-theme="dark"] .other-option-card .btn.btn-plan-primary {
   background: #38bdf8 !important;
   color: #0f172a !important;
   border-color: #38bdf8 !important;
-  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.3) !important;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.25) !important;
+}
+[data-theme="dark"] .other-option-card .btn.btn-plan-primary:hover {
+  background: #7dd3fc !important;
+  border-color: #7dd3fc !important;
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.4) !important;
+}
+[data-theme="dark"] .other-option-card .btn.btn-plan-secondary {
+  background: rgba(56, 189, 248, 0.08) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+  color: #38bdf8 !important;
+}
+[data-theme="dark"] .other-option-card .btn.btn-plan-secondary:hover {
+  background: rgba(56, 189, 248, 0.18) !important;
+  border-color: #38bdf8 !important;
+  color: #7dd3fc !important;
+}
+[data-theme="dark"] .other-option-card .btn.btn-plan-outline {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: var(--ink) !important;
+}
+[data-theme="dark"] .other-option-card .btn.btn-plan-outline:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Sidebar Terpadu Khas Apple */

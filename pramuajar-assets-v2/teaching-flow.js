@@ -138,7 +138,9 @@ function planningOptionsPanel(){
         <strong class="opt-title">Paket Perangkat Ajar ${wh(subject)} ${wh(gradeLabel)} - 1 Semester</strong>
         <p class="opt-desc">Modul Ajar, RPP, dan LKPD adaptif satu semester penuh.</p>
       </div>
-      ${wb('Rencanakan 1 semester','plan-class-semester',cl.id,'btn full')}
+      <div class="card-plan-actions">
+        ${wb('Rencanakan 1 semester','plan-class-semester',cl.id,'btn-plan-primary full')}
+      </div>
     </div>
     <div class="other-option-card card-year">
       <div class="opt-card-media">
@@ -149,7 +151,9 @@ function planningOptionsPanel(){
         <strong class="opt-title">Paket Perangkat Ajar ${wh(subject)} ${wh(gradeLabel)} - 1 Tahun</strong>
         <p class="opt-desc">Rancangan komprehensif dua semester yang dapat diperbarui.</p>
       </div>
-      ${wb('Rencanakan 1 tahun','plan-class-year',cl.id,'btn full')}
+      <div class="card-plan-actions">
+        ${wb('Rencanakan 1 tahun','plan-class-year',cl.id,'btn-plan-secondary full')}
+      </div>
     </div>
     <div class="other-option-card card-template">
       <div class="opt-card-media">
@@ -160,7 +164,9 @@ function planningOptionsPanel(){
         <strong class="opt-title">Katalog Template</strong>
         <p class="opt-desc">Perangkat satuan seperti LKPD atau materi ajar pilihan dari katalog template.</p>
       </div>
-      ${btn('Pilih template','nav','templates','btn full')}
+      <div class="card-plan-actions">
+        ${btn('Pilih template','nav','templates','btn-plan-outline full')}
+      </div>
     </div>`;
   } else {
     classesToShow.forEach((cl,idx)=>{
@@ -177,9 +183,9 @@ function planningOptionsPanel(){
           <strong class="opt-title">Paket Perangkat Ajar ${wh(subject)} ${wh(gradeLabel)} - 1 Semester</strong>
           <p class="opt-desc">Modul Ajar, RPP, dan LKPD adaptif satu semester penuh.</p>
         </div>
-        <div>
-          ${wb('Rencanakan 1 semester','plan-class-semester',cl.id,'btn full')}
-          <div style="text-align:center;margin-top:8px">${wb('Opsi rancangan 1 tahun','plan-class-year',cl.id,'btn text small')}</div>
+        <div class="card-plan-actions">
+          ${wb('Rencanakan 1 semester','plan-class-semester',cl.id,'btn-plan-primary full')}
+          ${wb('Opsi rancangan 1 tahun →','plan-class-year',cl.id,'btn-plan-secondary full')}
         </div>
       </div>`;
     });
@@ -193,7 +199,9 @@ function planningOptionsPanel(){
         <strong class="opt-title">Katalog Template</strong>
         <p class="opt-desc">Perangkat satuan seperti LKPD atau materi ajar pilihan dari katalog template.</p>
       </div>
-      ${btn('Pilih template','nav','templates','btn full')}
+      <div class="card-plan-actions">
+        ${btn('Pilih template','nav','templates','btn-plan-outline full')}
+      </div>
     </div>`;
   }
 
