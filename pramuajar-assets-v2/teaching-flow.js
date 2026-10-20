@@ -98,51 +98,130 @@ function lessonFocus(flow){
   </div>
  </section>`;
 }
+function formatGradeLabel(cl){
+  if(cl.grade&&String(cl.grade).trim())return 'Kelas '+String(cl.grade).trim();
+  const name=cl.name||'';
+  const match=name.match(/\b(XII|XI|X|IX|VIII|VII|VI|V|IV|III|II|I|\d+)\b/i);
+  if(match){
+    const romanMap={'I':'1','II':'2','III':'3','IV':'4','V':'5','VI':'6','VII':'7','VIII':'8','IX':'9','X':'10','XI':'11','XII':'12'};
+    const val=match[1].toUpperCase();
+    return 'Kelas '+(romanMap[val]||val);
+  }
+  return name?'Kelas '+name:'Kelas';
+}
+
+function planningOptionsPanel(){
+  const active=activeClass();
+  const schoolClasses=(state.classes||[]).filter(cl=>!active.school||cl.school===active.school||cl.level===active.level);
+  const rawClasses=schoolClasses.length?schoolClasses:(state.classes||[active]);
+  const classesToShow=rawClasses.slice().sort((a,b)=>{
+    if(a.id===active.id)return -1;
+    if(b.id===active.id)return 1;
+    const ga=parseInt(String(a.grade).replace(/\D/g,''))||0;
+    const gb=parseInt(String(b.grade).replace(/\D/g,''))||0;
+    return ga-gb;
+  });
+  const cardImages=['pramuajar-assets-v2/img/semester-icon.jpg','pramuajar-assets-v2/img/year-plan-3d.jpg','pramuajar-assets-v2/img/template-steps-3d.jpg'];
+
+  let cardsHtml='';
+  if(classesToShow.length===1){
+    const cl=classesToShow[0];
+    const gradeLabel=formatGradeLabel(cl);
+    const subject=cl.subject||'Mata Pelajaran';
+    cardsHtml+=`
+    <div class="other-option-card card-semester">
+      <div class="opt-card-media">
+        <img src="pramuajar-assets-v2/img/semester-icon.jpg" alt="Paket Semester" class="opt-media-img">
+        <span class="opt-badge">1 Semester · ${wh(cl.name)}</span>
+      </div>
+      <div class="opt-card-content">
+        <strong class="opt-title">Paket Perangkat Ajar ${wh(subject)} ${wh(gradeLabel)} - 1 Semester</strong>
+        <p class="opt-desc">Modul Ajar, RPP, dan LKPD adaptif satu semester penuh.</p>
+      </div>
+      ${wb('Rencanakan 1 semester','plan-class-semester',cl.id,'btn full')}
+    </div>
+    <div class="other-option-card card-year">
+      <div class="opt-card-media">
+        <img src="pramuajar-assets-v2/img/year-plan-3d.jpg" alt="Paket 1 Tahun" class="opt-media-img">
+        <span class="opt-badge">1 Tahun Ajaran · ${wh(cl.name)}</span>
+      </div>
+      <div class="opt-card-content">
+        <strong class="opt-title">Paket Perangkat Ajar ${wh(subject)} ${wh(gradeLabel)} - 1 Tahun</strong>
+        <p class="opt-desc">Rancangan komprehensif dua semester yang dapat diperbarui.</p>
+      </div>
+      ${wb('Rencanakan 1 tahun','plan-class-year',cl.id,'btn full')}
+    </div>
+    <div class="other-option-card card-template">
+      <div class="opt-card-media">
+        <img src="pramuajar-assets-v2/img/templates-catalog-3d.jpg" alt="Katalog Template" class="opt-media-img">
+        <span class="opt-badge">Katalog Siap Pakai</span>
+      </div>
+      <div class="opt-card-content">
+        <strong class="opt-title">Katalog Template</strong>
+        <p class="opt-desc">Perangkat satuan seperti LKPD atau materi ajar pilihan dari katalog template.</p>
+      </div>
+      ${btn('Pilih template','nav','templates','btn full')}
+    </div>`;
+  } else {
+    classesToShow.forEach((cl,idx)=>{
+      const gradeLabel=formatGradeLabel(cl);
+      const subject=cl.subject||'Mata Pelajaran';
+      const img=cardImages[idx%cardImages.length];
+      cardsHtml+=`
+      <div class="other-option-card card-semester">
+        <div class="opt-card-media">
+          <img src="${img}" alt="${wh(cl.name)}" class="opt-media-img">
+          <span class="opt-badge">1 Semester · ${wh(cl.name)}</span>
+        </div>
+        <div class="opt-card-content">
+          <strong class="opt-title">Paket Perangkat Ajar ${wh(subject)} ${wh(gradeLabel)} - 1 Semester</strong>
+          <p class="opt-desc">Modul Ajar, RPP, dan LKPD adaptif satu semester penuh.</p>
+        </div>
+        <div>
+          ${wb('Rencanakan 1 semester','plan-class-semester',cl.id,'btn full')}
+          <div style="text-align:center;margin-top:8px">${wb('Opsi rancangan 1 tahun','plan-class-year',cl.id,'btn text small')}</div>
+        </div>
+      </div>`;
+    });
+    cardsHtml+=`
+    <div class="other-option-card card-template">
+      <div class="opt-card-media">
+        <img src="pramuajar-assets-v2/img/templates-catalog-3d.jpg" alt="Katalog Template" class="opt-media-img">
+        <span class="opt-badge">Katalog Siap Pakai</span>
+      </div>
+      <div class="opt-card-content">
+        <strong class="opt-title">Katalog Template</strong>
+        <p class="opt-desc">Perangkat satuan seperti LKPD atau materi ajar pilihan dari katalog template.</p>
+      </div>
+      ${btn('Pilih template','nav','templates','btn full')}
+    </div>`;
+  }
+
+  return `<section class="panel other-options-panel">
+   <div class="other-options-header">
+    <div class="row between wrap" style="align-items:flex-start">
+      <div>
+        <h2>Pilih Perencanaan</h2>
+        <p class="lead small">Rekomendasi paket perangkat ajar adaptif yang dipersonalisasi sesuai kelas dan mata pelajaran Anda.</p>
+      </div>
+      <div>
+        <a href="#/classes" class="btn text small" style="font-weight:600">+ Kelola kelas</a>
+      </div>
+    </div>
+   </div>
+   <div class="other-options-grid">
+    ${cardsHtml}
+   </div>
+  </section>`;
+}
+
 home=function(){
  const c=activeClass(),flow=classLessonFlow(c.id),note=latestNote(c.id);
  return heading('Selamat datang, '+wh(state.profile.name)+'.','Siapkan pembelajaran, ceritakan hasilnya, lalu lanjutkan sesuai kebutuhan kelas.')+
- `<div class="teaching-home"><div class="stack">${lessonFocus(flow)}
- <section class="panel other-options-panel">
-  <div class="other-options-header">
-   <h2>Pilihan Perencanaan Lainnya</h2>
-   <p class="lead small">Susun kerangka lengkap semester atau tahunan, atau pilih perangkat satuan siap pakai dari katalog template.</p>
-  </div>
-  <div class="other-options-grid">
-   <div class="other-option-card card-semester">
-    <div class="opt-card-media">
-     <img src="pramuajar-assets-v2/img/semester-icon.jpg" alt="Paket Semester" class="opt-media-img">
-     <span class="opt-badge">1 Semester</span>
-    </div>
-    <div class="opt-card-content">
-     <strong class="opt-title">Paket 1 Semester</strong>
-     <p class="opt-desc">Modul Ajar, RPP, dan LKPD adaptif satu semester penuh.</p>
-    </div>
-    ${btn('Rencanakan 1 semester','new','semester','btn full')}
-   </div>
-   <div class="other-option-card card-year">
-    <div class="opt-card-media">
-     <img src="pramuajar-assets-v2/img/year-plan-3d.jpg" alt="Paket 1 Tahun" class="opt-media-img">
-     <span class="opt-badge">1 Tahun Ajaran</span>
-    </div>
-    <div class="opt-card-content">
-     <strong class="opt-title">Paket 1 Tahun</strong>
-     <p class="opt-desc">Rancangan komprehensif dua semester yang dapat diperbarui.</p>
-    </div>
-    ${btn('Rencanakan 1 tahun','new','year','btn full')}
-   </div>
-   <div class="other-option-card card-template">
-    <div class="opt-card-media">
-     <img src="pramuajar-assets-v2/img/templates-catalog-3d.jpg" alt="Katalog Template" class="opt-media-img">
-     <span class="opt-badge">Katalog Siap Pakai</span>
-    </div>
-    <div class="opt-card-content">
-     <strong class="opt-title">Katalog Template</strong>
-     <p class="opt-desc">Perangkat satuan seperti LKPD atau materi ajar pilihan.</p>
-    </div>
-    ${btn('Pilih template','nav','templates','btn full')}
-   </div>
-  </div>
- </section></div>
+ `<div class="teaching-home"><div class="stack">
+  ${planningOptionsPanel()}
+  ${lessonFocus(flow)}
+ </div>
  <aside class="stack lesson-sidebar">
   <section class="panel sidebar-panel">
    <div class="panel-card-head">
@@ -305,6 +384,8 @@ document.addEventListener('click',e=>{
  else if(action==='lesson-journals'){W.journalFilters={classId:value,subject:'',from:'',to:'',status:''};W.journalTab='entries';go('journal');}
  else if(action==='lesson-replace'){const proceed=W.replaceLessonDraft;W.replaceLessonDraft=null;if(proceed)proceed();}
  else if(action==='lesson-resume-draft'){closeModal();if(state.builderDraft){builder=structuredClone(state.builderDraft);builderStep=1;state.activeClass=builder.classId;persist();go('create');}}
+ else if(action==='plan-class-semester'){state.activeClass=value;persist();newBuilder('semester',0,value);}
+ else if(action==='plan-class-year'){state.activeClass=value;persist();newBuilder('year',0,value);}
 });
 document.addEventListener('change',e=>{
  if(e.target.id==='build-class'&&builder){

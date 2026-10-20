@@ -344,9 +344,19 @@ h1, h2, h3, h4, .brand {
 .other-options-panel {
   padding: 26px !important;
 }
+.other-options-header {
+  margin-bottom: 20px;
+}
+.other-options-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
 .other-options-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 18px;
 }
 .other-option-card {
